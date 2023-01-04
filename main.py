@@ -1,4 +1,4 @@
-import pygame, time
+import pygame, numpy as np
 
 WIDTH, HEIGHT = 900, 500
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -12,46 +12,61 @@ BLOCK_SIZE = 20
 
 MOUSE_POS = (WIDTH/2, HEIGHT/2)
 
-FPS = 1000
+FPS = 75
+
+def get_matrix():
+    matrix = []
+    x, y = 0, 0
+    for i in range(0, WIDTH // BLOCK_SIZE):
+        row = []
+        for j in range(0, HEIGHT // BLOCK_SIZE):
+            row.append(False)
+            y += BLOCK_SIZE
+        matrix.append(row)
+        x += BLOCK_SIZE
+
+    return matrix
+
+def update_matrix_coords(matrix, pos):
+    x = pos[0] // BLOCK_SIZE
+    y = pos[1] // BLOCK_SIZE
+
+    matrix[x][y] = True
+    return matrix
+
+def update_matrix(matrix, pos):
+    matrix[pos[0]][pos[1]] = True
+    return matrix
+
 
 def draw_window():
     WIN.fill(BLACK)
     pygame.display.update()
 
-def draw_grid():
-    for x in range(0, WIDTH, BLOCK_SIZE):
-        for y in range(0, HEIGHT, BLOCK_SIZE):
-            rect = pygame.Rect(x, y, BLOCK_SIZE, BLOCK_SIZE)
-            pygame.draw.rect(WIN, GRAY, rect, 1)
+def draw_grid_matrix(matrix):
+    for i in range(0, len(matrix)):
+        for j in range(0, len(matrix[0])):
+            rect = pygame.Rect(i * BLOCK_SIZE, j * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE)
+            if matrix[i][j]:
+                pygame.draw.rect(WIN, WHITE, rect, 0)
+            else:
+                pygame.draw.rect(WIN, GRAY, rect, 1)
 
-def calculate_pos(coord):
-    rectPos = coord // BLOCK_SIZE
-    drawPos = rectPos * BLOCK_SIZE
-    return drawPos
-
-def draw_rectangle(pos):
-    pos_x = pos[0]
-    pos_y = pos[1]
-
-    x = calculate_pos(pos_x)
-    y = calculate_pos(pos_y)
-
-    rect = pygame.Rect(x, y, BLOCK_SIZE, BLOCK_SIZE)
-    pygame.draw.rect(WIN, WHITE, rect, 0)
             
 
 def main():
     clock = pygame.time.Clock()
     run = True
+    matrix = get_matrix()
     while run:
-        draw_grid()
-        
+        draw_grid_matrix(matrix)
+
         clock.tick(FPS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.MOUSEBUTTONDOWN:
-                draw_rectangle(pygame.mouse.get_pos())
+                matrix = update_matrix_coords(matrix, pygame.mouse.get_pos())
 
         pygame.display.update()
 
