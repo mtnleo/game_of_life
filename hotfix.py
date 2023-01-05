@@ -1,4 +1,4 @@
-import pygame, time, gc
+import pygame, time
 from copy import deepcopy
 
 WIDTH, HEIGHT = 900, 500
@@ -9,7 +9,7 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 GRAY = (50, 50, 50)
 
-BLOCK_SIZE = 20
+BLOCK_SIZE = 160
 
 MOUSE_POS = (WIDTH/2, HEIGHT/2)
 
@@ -38,14 +38,6 @@ def update_matrix_coords(matrix, pos):
     y = pos[1]
 
     new_matrix[x][y] = True
-    return new_matrix
-
-def update_matrix_coords_false(matrix, pos):
-    new_matrix = deepcopy(matrix)
-    x = pos[0]
-    y = pos[1]
-
-    new_matrix[x][y] = False
     return new_matrix
 
 def update_matrix(matrix, pos):
@@ -88,21 +80,15 @@ def check_cells(new_matrix, matrix, pos):
                     pass
 
     if alive_neighbors < 2 or alive_neighbors > 3:
-        """
         x = pos[0]
         y = pos[1]
-        new_matrix[x][y] = False # Esta convirtiendo todo en falso, apunta a la misma direccion en todo?
-        """
-        new_matrix = update_matrix_coords_false(new_matrix, pos)
+        new_matrix[x][y] = False
     
     return new_matrix
 
-# Chequea tantas veces en un segundo, que se muere en todas las iteraciones
+
 def check_matrix(matrix):
     new_matrix = deepcopy(matrix)
-    #print("ID MATRIX -> ", id(matrix))
-    #print("ID NEW_MATRIX -> ", id(new_matrix))
-
 
     for i in range(0, len(matrix)):
         for j in range(0, len(matrix[0])):
@@ -116,14 +102,13 @@ def draw_window():
     pygame.display.update()
 
 def draw_grid_matrix(matrix):
-    #draw_window()
+    draw_window()
     for i in range(0, len(matrix)):
         for j in range(0, len(matrix[0])):
             rect = pygame.Rect(i * BLOCK_SIZE, j * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE)
             if matrix[i][j]:
                 pygame.draw.rect(WIN, WHITE, rect, 0)
             else:
-                pygame.draw.rect(WIN, BLACK, rect, 0)
                 pygame.draw.rect(WIN, GRAY, rect, 1)
 
 
@@ -134,7 +119,6 @@ def main():
     run = True
     matrix = get_matrix()
     ready = False
-
     while run:
         while not ready and run: # Time for drawing the initial state, space to continue
             clock.tick(FPS)
@@ -145,7 +129,7 @@ def main():
                     x = pygame.mouse.get_pos()[0] // BLOCK_SIZE
                     y =  pygame.mouse.get_pos()[1] // BLOCK_SIZE
                     matrix = update_matrix_coords(matrix, (x, y))
-                if event.type == pygame.KEYDOWN:
+                if event.type == pygame.K_SPACE:
                     ready = True
 
             draw_grid_matrix(matrix)
@@ -154,7 +138,7 @@ def main():
 
         while ready and run: # Actual game
 
-            clock.tick(6)
+            clock.tick(20)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
@@ -169,3 +153,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+    
