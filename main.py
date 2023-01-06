@@ -88,22 +88,12 @@ def check_cells(new_matrix, matrix, pos):
                     pass
 
     if alive_neighbors < 2 or alive_neighbors > 3:
-        """
-        x = pos[0]
-        y = pos[1]
-        new_matrix[x][y] = False # Esta convirtiendo todo en falso, apunta a la misma direccion en todo?
-        """
         new_matrix = update_matrix_coords_false(new_matrix, pos)
     
     return new_matrix
 
-# Chequea tantas veces en un segundo, que se muere en todas las iteraciones
 def check_matrix(matrix):
     new_matrix = deepcopy(matrix)
-    #print("ID MATRIX -> ", id(matrix))
-    #print("ID NEW_MATRIX -> ", id(new_matrix))
-
-
     for i in range(0, len(matrix)):
         for j in range(0, len(matrix[0])):
             if matrix[i][j]:
