@@ -8,12 +8,18 @@ pygame.display.set_caption("Game of life by mtnleo")
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 GRAY = (50, 50, 50)
+LIGHT_GRAY = (230, 230, 230)
+
 
 BLOCK_SIZE = 20
 
 MOUSE_POS = (WIDTH/2, HEIGHT/2)
 
 FPS = 75
+
+pygame.font.init()
+FONT = pygame.font.SysFont("couriernew", 18, bold=True)
+ITER_TEXT = pygame.font.Font.render(FONT, "iters: ", True, BLACK, LIGHT_GRAY)
 
 def get_empty_list():
     empty_list = []
@@ -105,8 +111,22 @@ def draw_window():
     WIN.fill(BLACK)
     pygame.display.update()
 
+def draw_iteration(iters):
+    pos_y = 0
+    pos_x = WIDTH - (WIDTH * .2)
+    rect_width = WIDTH * .2
+    rect_height = HEIGHT * .05
+
+    rect = pygame.Rect(pos_x, pos_y, rect_width, rect_height)
+    pygame.draw.rect(WIN, LIGHT_GRAY, rect, 0)
+    
+    text = pygame.font.Font.render(FONT, str(iters), True, BLACK)
+    WIN.blit(ITER_TEXT, (pos_x + 2, pos_y + 3))
+    WIN.blit(text, (pos_x + rect_width // 2 - 20, pos_y + 4))
+    
+
+
 def draw_grid_matrix(matrix):
-    #draw_window()
     for i in range(0, len(matrix)):
         for j in range(0, len(matrix[0])):
             rect = pygame.Rect(i * BLOCK_SIZE, j * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE)
@@ -124,6 +144,8 @@ def main():
     run = True
     matrix = get_matrix()
     ready = False
+
+    ITERS = 0
 
     while run:
         while not ready and run: # Time for drawing the initial state, space to continue
@@ -150,8 +172,10 @@ def main():
                     run = False
 
             draw_grid_matrix(matrix)
+            draw_iteration(ITERS)
 
             matrix = check_matrix(matrix)
+            ITERS += 1
 
             pygame.display.update()
 

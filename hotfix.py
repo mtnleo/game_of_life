@@ -152,7 +152,7 @@ def main():
     pygame.quit()
 
 if __name__ == "__main__":
-    main()
+    print(pygame.font.get_fonts())
 
 
     
