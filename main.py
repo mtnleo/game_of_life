@@ -154,9 +154,16 @@ def main():
                 if event.type == pygame.QUIT:
                     run = False
                 if event.type == pygame.MOUSEBUTTONDOWN:
+                    left_click, _, right_click = pygame.mouse.get_pressed()
+
                     x = pygame.mouse.get_pos()[0] // BLOCK_SIZE
                     y =  pygame.mouse.get_pos()[1] // BLOCK_SIZE
-                    matrix = update_matrix_coords(matrix, (x, y))
+
+                    if left_click:
+                        matrix = update_matrix_coords(matrix, (x, y))
+                    if right_click:
+                        matrix = update_matrix_coords_false(matrix, (x, y))
+
                 if event.type == pygame.KEYDOWN:
                     ready = True
 
