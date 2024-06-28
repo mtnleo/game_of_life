@@ -6,7 +6,7 @@ Game rules were created by using a matrix and displaying it using the Pygame eng
 
 <img width="899" alt="Screenshot 2024-05-10 at 11 53 51 AM" src="https://github.com/mtnleo/game_of_life/assets/118694913/35fbaf5d-fdfb-4287-b70d-cd336b4c02e1">
 
-How to run?
+## How to run?
 - Via .exe
   1. Install the exe file
   2. Run the game
@@ -15,12 +15,12 @@ How to run?
   2. Go to the game directory
   3. Run _main.py_
 
-Playing:
+## Playing:
 - Press **Left-Click** to draw a tile on the screen.
 - Press **Right-Click** to delete a tile previously drawn.
 - Hit **Spacebar** to start the simulation
 
-Game of Life's rules:
+## Game of Life's rules:
 Conway's Game of Life is a zero-player game on a grid. Cells are alive or dead. They evolve based on the
 state of their 8 neighbors:
 - A live cell with 2-3 neighbors survives.
@@ -29,4 +29,4 @@ state of their 8 neighbors:
 
 This simple rule set can lead to surprising complexity! See more in its [Wikipedia article]([url](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life))
 
-- mtnleo
+--mtnleo
